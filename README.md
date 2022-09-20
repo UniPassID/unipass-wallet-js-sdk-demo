@@ -1,4 +1,4 @@
-# UnipassWalletProvider
+# UnipassWalletProvider Usage
 
 ## Init
 
