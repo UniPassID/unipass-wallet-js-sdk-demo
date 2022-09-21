@@ -1,11 +1,11 @@
+import { useEffect, useState } from "react";
+import { ethers } from "ethers";
+import { history } from "umi";
+import { Button, Descriptions, Form, Input, message, PageHeader, Select, Spin, Divider, Typography } from "antd";
 import { useUnipass } from "@/hooks/useUnipass";
 import { etherToWei, weiToEther } from "@/utils/format_bignumber";
 import MutilTasks from "@/utils/mutil_task";
 import { TransactionProps } from "@unipasswallet/provider";
-import { Button, Descriptions, Form, Input, message, PageHeader, Select, Spin, Divider, Typography } from "antd";
-import { ethers } from "ethers";
-import { useEffect, useState } from "react";
-import { history } from "umi";
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -204,8 +204,6 @@ const LoginSuccess: React.FC = () => {
             verify sign message
           </Button>
         </Form.Item>
-        <h5>signed message</h5>
-        <Paragraph copyable>{signedMessage || "--"}</Paragraph>
       </Form>
       <Divider />
 

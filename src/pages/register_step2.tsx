@@ -1,6 +1,6 @@
-import { useUnipass } from "@/hooks/useUnipass";
 import { Button, Form, Input } from "antd";
 import { history } from "umi";
+import { useUnipass } from "@/hooks/useUnipass";
 
 const RegisterStep2: React.FC = () => {
   const { verifyRegisterCode, loading } = useUnipass();

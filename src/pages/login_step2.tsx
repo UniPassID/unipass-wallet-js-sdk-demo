@@ -1,6 +1,5 @@
 import { useUnipass } from "@/hooks/useUnipass";
 import { Button, Form, Input } from "antd";
-import { useEffect } from "react";
 import { history } from "umi";
 
 const LoginStep2: React.FC = () => {
