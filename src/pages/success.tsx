@@ -12,7 +12,7 @@ const { Option } = Select;
 const { Paragraph } = Typography;
 
 const LoginSuccess: React.FC = () => {
-  const [balance, setBalance] = useState("0");
+  const [polygonBalance, setPolygonBalance] = useState("0");
   const [bscbalance, setbscBalance] = useState("0");
   const [rangersbalance, setrangersBalance] = useState("0");
   const [address, setAddress] = useState("");
@@ -38,7 +38,7 @@ const LoginSuccess: React.FC = () => {
         balanceMutilTask.add(rangersWallet?.getBalance());
         const [address, balanceRaw1, balanceRaw2, balanceRaw3] = await balanceMutilTask.run();
 
-        setBalance(weiToEther(balanceRaw1));
+        setPolygonBalance(weiToEther(balanceRaw1));
         setbscBalance(weiToEther(balanceRaw2));
         setrangersBalance(weiToEther(balanceRaw3));
         setAddress(address);
@@ -157,7 +157,7 @@ const LoginSuccess: React.FC = () => {
       <Divider />
       <PageHeader ghost={false} title="polygon info">
         <Descriptions size="small" column={3}>
-          <Descriptions.Item label="Balance">{balance}</Descriptions.Item>
+          <Descriptions.Item label="Balance">{polygonBalance}</Descriptions.Item>
         </Descriptions>
       </PageHeader>
       <Divider />
