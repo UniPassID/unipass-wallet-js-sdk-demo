@@ -12,7 +12,7 @@ const RegisterStep3: React.FC = () => {
 
   return (
     <div>
-      <h3>step3: verify you password</h3>
+      <h3>step3: verify your password</h3>
       <Form name="verify you password" labelCol={{ span: 4 }} wrapperCol={{ span: 16 }} onFinish={onFinish} autoComplete="off">
         <Form.Item label="password" name="password" rules={[{ required: true, message: "Please input your password!" }]}>
           <Input />

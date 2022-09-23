@@ -12,7 +12,7 @@ const LoginStep2: React.FC = () => {
 
   return (
     <div>
-      <h3>step2: verify you code</h3>
+      <h3>step2: verify your code</h3>
       <Form name="verify you code" labelCol={{ span: 4 }} wrapperCol={{ span: 16 }} onFinish={onFinish} autoComplete="off">
         <Form.Item label="code" name="code" rules={[{ required: true, message: "Please input your code!" }]}>
           <Input />

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { ethers } from "ethers";
 import { history } from "umi";
-import { Button, Descriptions, Form, Input, message, PageHeader, Select, Spin, Divider, Typography } from "antd";
+import { Button, Descriptions, Form, Input, message, PageHeader, Select, Spin, Divider, Typography, InputNumber } from "antd";
 import { useUnipass } from "@/hooks/useUnipass";
 import { etherToWei, weiToEther } from "@/utils/format_bignumber";
 import MutilTasks from "@/utils/mutil_task";
@@ -63,8 +63,7 @@ const LoginSuccess: React.FC = () => {
     if (unipassWallet) {
       try {
         setSendLoading(true);
-        const { address, value, feeAddress, feeValue, chain } = values;
-        console.log(values);
+        const { address, value, feeAddress, feeValue, feeDecimal, chain } = values;
         const params = {} as TransactionProps;
         params.tx = {
           target: address,
@@ -74,7 +73,7 @@ const LoginSuccess: React.FC = () => {
         if (feeAddress) {
           params.fee = {
             token: feeAddress,
-            value: etherToWei(feeValue),
+            value: etherToWei(feeValue, feeDecimal),
           };
         }
         params.chain = chain;
@@ -95,10 +94,10 @@ const LoginSuccess: React.FC = () => {
     if (unipassWallet) {
       try {
         setSendLoading(true);
-        const { address, erc20TokenAddress, erc20TokenValue, feeAddress, feeValue, chain } = values;
+        const { address, erc20TokenAddress, erc20TokenValue, feeAddress, feeValue, tokenDecimal, feeDecimal, chain } = values;
 
         const erc20Interface = new ethers.utils.Interface(["function transfer(address _to, uint256 _value)"]);
-        const erc20TokenData = erc20Interface.encodeFunctionData("transfer", [address, etherToWei(erc20TokenValue)]);
+        const erc20TokenData = erc20Interface.encodeFunctionData("transfer", [address, etherToWei(erc20TokenValue, tokenDecimal)]);
         const params = {} as TransactionProps;
         params.tx = {
           target: erc20TokenAddress,
@@ -109,7 +108,7 @@ const LoginSuccess: React.FC = () => {
         if (values.feeAddress) {
           params.fee = {
             token: feeAddress,
-            value: etherToWei(feeValue),
+            value: etherToWei(feeValue, feeDecimal),
           };
         }
         params.chain = chain;
@@ -208,7 +207,14 @@ const LoginSuccess: React.FC = () => {
       <Divider />
 
       <h3>send native transaction</h3>
-      <Form name="native transaction" labelCol={{ span: 6 }} wrapperCol={{ span: 18 }} onFinish={sendNativeToken} autoComplete="off">
+      <Form
+        name="native transaction"
+        initialValues={{ feeDecimal: 18 }}
+        labelCol={{ span: 6 }}
+        wrapperCol={{ span: 18 }}
+        onFinish={sendNativeToken}
+        autoComplete="off"
+      >
         <Form.Item name="chain" label="chain" rules={[{ required: true }]}>
           <Select placeholder="Select  chain" allowClear>
             <Option value="polygon">polygon</Option>
@@ -219,14 +225,24 @@ const LoginSuccess: React.FC = () => {
         <Form.Item label="address" name="address" rules={[{ required: true, message: "Please input your address!" }]}>
           <Input />
         </Form.Item>
-        <Form.Item label="value" name="value" rules={[{ required: true, message: "Please input your value!" }]}>
-          <Input />
+        <Form.Item
+          label="value"
+          name="value"
+          rules={[
+            { required: true, message: "Please input your value!" },
+            { type: "number", min: 0 },
+          ]}
+        >
+          <InputNumber />
         </Form.Item>
         <Form.Item label="fee token address" name="feeAddress">
           <Input />
         </Form.Item>
-        <Form.Item label="fee value" name="feeValue">
-          <Input />
+        <Form.Item label="fee value" name="feeValue" rules={[{ type: "number", min: 0 }]}>
+          <InputNumber />
+        </Form.Item>
+        <Form.Item label="fee decimal " name="feeDecimal" rules={[{ type: "number", min: 1 }]}>
+          <InputNumber />
         </Form.Item>
         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
           <Button loading={sendLoading} type="primary" htmlType="submit">
@@ -237,7 +253,14 @@ const LoginSuccess: React.FC = () => {
       <Divider />
 
       <h3>send erc20 transaction</h3>
-      <Form name="erc20 transaction" labelCol={{ span: 6 }} wrapperCol={{ span: 18 }} onFinish={sendErc20Token} autoComplete="off">
+      <Form
+        name="erc20 transaction"
+        initialValues={{ tokenDecimal: 18, feeDecimal: 18 }}
+        labelCol={{ span: 6 }}
+        wrapperCol={{ span: 18 }}
+        onFinish={sendErc20Token}
+        autoComplete="off"
+      >
         <Form.Item name="chain" label="chain" rules={[{ required: true }]}>
           <Select placeholder="Select  chain" allowClear>
             <Option value="polygon">polygon</Option>
@@ -252,13 +275,26 @@ const LoginSuccess: React.FC = () => {
           <Input />
         </Form.Item>
         <Form.Item label="erc20 token value" name="erc20TokenValue" rules={[{ required: true, message: "Please input your value!" }]}>
-          <Input />
+          <InputNumber />
+        </Form.Item>
+        <Form.Item
+          label="token decimal "
+          name="tokenDecimal"
+          rules={[
+            { required: true, message: "Please input your token decimal!" },
+            { type: "number", min: 1 },
+          ]}
+        >
+          <InputNumber />
         </Form.Item>
         <Form.Item label="fee token address" name="feeAddress">
           <Input />
         </Form.Item>
-        <Form.Item label="fee value" name="feeValue">
-          <Input />
+        <Form.Item label="fee value" name="feeValue" rules={[{ type: "number", min: 0 }]}>
+          <InputNumber />
+        </Form.Item>
+        <Form.Item label="fee decimal " name="feeDecimal" rules={[{ type: "number", min: 1 }]}>
+          <InputNumber />
         </Form.Item>
         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
           <Button loading={sendLoading} type="primary" htmlType="submit">
