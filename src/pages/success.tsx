@@ -109,7 +109,7 @@ const LoginSuccess: React.FC = () => {
         if (values.feeAddress) {
           params.fee = {
             token: feeAddress,
-            value: etherToWei(feeValue, feeDecimal),
+            value: etherToWei(`${feeValue}`, feeDecimal),
           };
         }
         params.chain = chain;
