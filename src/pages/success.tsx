@@ -67,13 +67,13 @@ const LoginSuccess: React.FC = () => {
         const params = {} as TransactionProps;
         params.tx = {
           target: address,
-          value: etherToWei(value),
+          value: etherToWei(`${value}`),
           revertOnError: true,
         };
         if (feeAddress) {
           params.fee = {
             token: feeAddress,
-            value: etherToWei(feeValue, feeDecimal),
+            value: etherToWei(`${feeValue}`, feeDecimal),
           };
         }
         params.chain = chain;
