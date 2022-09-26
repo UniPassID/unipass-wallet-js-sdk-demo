@@ -95,9 +95,10 @@ const LoginSuccess: React.FC = () => {
       try {
         setSendLoading(true);
         const { address, erc20TokenAddress, erc20TokenValue, feeAddress, feeValue, tokenDecimal, feeDecimal, chain } = values;
+        console.log(values);
 
         const erc20Interface = new ethers.utils.Interface(["function transfer(address _to, uint256 _value)"]);
-        const erc20TokenData = erc20Interface.encodeFunctionData("transfer", [address, etherToWei(erc20TokenValue, tokenDecimal)]);
+        const erc20TokenData = erc20Interface.encodeFunctionData("transfer", [address, etherToWei(`${erc20TokenValue}`, tokenDecimal)]);
         const params = {} as TransactionProps;
         params.tx = {
           target: erc20TokenAddress,
@@ -271,7 +272,7 @@ const LoginSuccess: React.FC = () => {
         <Form.Item label="address" name="address" rules={[{ required: true, message: "Please input your address!" }]}>
           <Input />
         </Form.Item>
-        <Form.Item label="erc2 token address" name="erc20TokenAddress" rules={[{ required: true, message: "Please input your address!" }]}>
+        <Form.Item label="erc20 token address" name="erc20TokenAddress" rules={[{ required: true, message: "Please input your address!" }]}>
           <Input />
         </Form.Item>
         <Form.Item label="erc20 token value" name="erc20TokenValue" rules={[{ required: true, message: "Please input your value!" }]}>
