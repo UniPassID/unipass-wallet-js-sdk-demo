@@ -14,11 +14,16 @@ export default function Layout() {
       unipassWallet
         .isLoggedIn()
         .then((loggedIn) => {
+          console.log(loggedIn);
+
           if (loggedIn) {
             history.push("/success");
           } else {
             history.replace("/");
           }
+        })
+        .catch((e) => {
+          history.replace("/");
         })
         .finally(() => {
           setPageLoading(false);
